@@ -3,35 +3,45 @@ package hometask.two;
 public abstract class Person {
     private String firstName;
     private String lastName;
-    private int phoneNumber;
+    private long phoneNumber;
     private String mailAddress;
 
-    public Person(String firstName, String lastName, int phoneNumber, String mailAddress) {
+    public Person(String firstName, String lastName, long phoneNumber, String mailAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         setPhoneNumber(phoneNumber);
         this.mailAddress = mailAddress;
     }
 
+    public abstract String showFullName(String firstName, String lastName);
+
+    private void setPhoneNumber(long phoneNumber) {
+        if (phoneNumber > 0) {
+            this.phoneNumber = phoneNumber;
+        }
+    }
+
     public String getFirstName() {
         return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {
         return lastName;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public String getMailAddress() {
-        return mailAddress;
+    @Override
+    public String toString() {
+        return "firstName: " + firstName +
+                ", lastName: " + lastName +
+                ", phoneNumber: " + phoneNumber +
+                ", mailAddress: " + mailAddress;
     }
-
-    public void setPhoneNumber(int phoneNumber) {
-        if (phoneNumber > 0) {
-            this.phoneNumber = phoneNumber;
-        }
-    }
-    }
+}

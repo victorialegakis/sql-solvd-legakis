@@ -1,34 +1,26 @@
 package hometask.two;
 
-public class Broker extends Person {
+public final class Broker extends Person {
 
     private int registrationNumber;
     private static String location;
 
 
-    public Broker(String firstName, String lastName, int phoneNumber, String mailAddress, int registrationNumber) {
+    public Broker(String firstName, String lastName, long phoneNumber, String mailAddress, int registrationNumber) {
         super(firstName, lastName, phoneNumber, mailAddress);
         this.registrationNumber = registrationNumber;
         Broker.location = "4258 Cimmaron Road, Santa Ana, CA 92701";
     }
 
-    public int getRegistrationNumber() {
-        return registrationNumber;
-    }
-
-    public static String getLocation() {
-        return location;
+    @Override
+    public String showFullName(String firstName, String lastName) {
+        return "Broker " + firstName + " " + lastName;
     }
 
     @Override
     public String toString() {
-        return "Broker{"  +
-                "firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
-                ", phoneNumber=" + getPhoneNumber() + '\'' +
-                ", mailAddress='" + getMailAddress() + '\'' +
-                ", registrationNumber=" + registrationNumber + '\'' +
-                ", location=" + location +
-                '}';
+        return "Broker{" + super.toString() +
+                ", registrationNumber: " + registrationNumber +
+                "} ";
     }
 }

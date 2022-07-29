@@ -14,15 +14,15 @@ public class Edified extends Property {
         setNumberOfBathrooms(numberOfBathrooms);
     }
 
-    public void setNumberOfSpaces(int numberOfSpaces) {
+    private void setNumberOfSpaces(int numberOfSpaces) {
         this.numberOfSpaces = numberOfSpaces;
     }
 
-    public void setNumberOfBathrooms(int numberOfBathrooms) {
+    private void setNumberOfBathrooms(int numberOfBathrooms) {
         this.numberOfBathrooms = numberOfBathrooms;
     }
 
-    public void setArea(int area) {
+    private void setArea(int area) {
         this.area = area;
     }
 }

@@ -1,11 +1,17 @@
 package hometask.two;
 
-public class Customer extends Person {
+public final class Customer extends Person {
     private int budget;
 
-    public Customer(String firstName, String lastName, int phoneNumber, String mailAddress, int budget) {
+    public Customer(String firstName, String lastName, long phoneNumber, String mailAddress) {
         super(firstName, lastName, phoneNumber, mailAddress);
         setBudget(budget);
+    }
+
+    @Override
+    public String showFullName(String firstName, String lastName) {
+        return "dear customer " + firstName + " " + lastName;
+
     }
 
     public void setBudget(int budget) {
@@ -18,12 +24,8 @@ public class Customer extends Person {
 
     @Override
     public String toString() {
-        return "Customer{" +
-                "firstName='" + getFirstName() + '\'' +
-                ", lastName='" + getLastName() + '\'' +
-                ", phoneNumber=" + getPhoneNumber() + '\'' +
-                ", mailAddress='" + getMailAddress() + '\'' +
-                ", budget=" + budget +
-                '}';
+        return "Customer{" + super.toString() +
+                ", budget: " + budget +
+                "} ";
     }
 }
