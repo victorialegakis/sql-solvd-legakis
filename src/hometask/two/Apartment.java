@@ -40,4 +40,24 @@ public final class Apartment extends Edified {
                 ", apartmentType: " + apartmentType +
                 "} ";
     }
+
+    @Override
+    public void getLeaseInfo() {
+        
+    }
+
+    @Override
+    public int calculateLeaseTaxes() {
+        return 0;
+    }
+
+    @Override
+    public void getSaleInfo() {
+
+    }
+
+    @Override
+    public int calculateSalesTaxes() {
+        return 0;
+    }
 }

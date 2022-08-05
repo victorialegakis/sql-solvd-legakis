@@ -2,10 +2,16 @@ package hometask.two;
 
 public final class Customer extends Person {
     private int budget;
+    private String username;
 
     public Customer(String firstName, String lastName, long phoneNumber, String mailAddress) {
         super(firstName, lastName, phoneNumber, mailAddress);
         setBudget(budget);
+        this.username = firstName + lastName;
+    }
+
+    public String getUsername() {
+        return username;
     }
 
     @Override
@@ -28,5 +34,10 @@ public final class Customer extends Person {
         return "Customer{" + super.toString() +
                 ", budget: " + budget +
                 "} ";
+    }
+
+    @Override
+    public void showId() {
+        System.out.println(username);
     }
 }

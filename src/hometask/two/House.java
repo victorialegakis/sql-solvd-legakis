@@ -37,5 +37,25 @@ public final class House extends Edified {
                 ", constructionType: " + constructionType +
                 "} ";
     }
+
+    @Override
+    public void getLeaseInfo() {
+
+    }
+
+    @Override
+    public int calculateLeaseTaxes() {
+        return 0;
+    }
+
+    @Override
+    public void getSaleInfo() {
+
+    }
+
+    @Override
+    public int calculateSalesTaxes() {
+        return 0;
+    }
 }
 

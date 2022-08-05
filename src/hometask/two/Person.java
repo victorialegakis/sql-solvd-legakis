@@ -1,6 +1,8 @@
 package hometask.two;
 
-public abstract class Person {
+import hometask.two.interfaces.Identifiable;
+
+public abstract class Person implements Identifiable {
     private String firstName;
     private String lastName;
     private long phoneNumber;

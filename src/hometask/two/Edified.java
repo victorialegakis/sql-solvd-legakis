@@ -1,8 +1,9 @@
 package hometask.two;
 
 import hometask.two.enums.Neighborhood;
+import hometask.two.interfaces.Operable;
 
-public abstract class Edified extends Property {
+public abstract class Edified extends Property implements Operable {
     private int area;
     private int numberOfSpaces;
     private int numberOfBathrooms;

@@ -4,7 +4,7 @@ import hometask.two.enums.Neighborhood;
 
 public abstract class Property {
     private String id;
-    private int price;
+    private int price; //will be base price
     private Neighborhood neighborhood;
 
     public Property(String id, int price, Neighborhood neighborhood) {
@@ -27,17 +27,6 @@ public abstract class Property {
     }
 
     public abstract int calculateFinalPrice();
-
-
-    public int propertiesValueMin(Neighborhood neighborhood) {
-        int valueMin = Integer.MAX_VALUE;
-        return valueMin;
-    }
-
-    public int propertiesValueMax(Neighborhood neighborhood) {
-        int valueMax = Integer.MIN_VALUE;
-        return valueMax;
-    }
 
 
     @Override

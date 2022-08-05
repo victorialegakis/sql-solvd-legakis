@@ -23,4 +23,9 @@ public final class Broker extends Person {
                 ", registrationNumber: " + registrationNumber +
                 "} ";
     }
+
+    @Override
+    public void showId() {
+        System.out.println(registrationNumber);
+    }
 }

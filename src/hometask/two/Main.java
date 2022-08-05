@@ -37,8 +37,11 @@ public class Main {
         //ask data to the customer
         Customer costumerData = agency.askAndSaveCustomerData();
 
+        //give back username for the customer
         System.out.println("Thank you " + costumerData.showFullName(costumerData.getFirstName(), costumerData.getLastName()) + ". Your registration information has been saved.");
         System.out.println("");
+        System.out.println("Your username has been automatically generated to " + costumerData.getUsername().toLowerCase() + " for future visits.");
+
 
         //show Options to the Customer
         System.out.println("We currently have " + agency.quantityOfProperties() + " properties available in all of our website.");
@@ -90,7 +93,6 @@ public class Main {
                 System.out.println("Here's a list of all " + chosenPropertyType + "S in your desired area.");
                 System.out.println(agency.getListByPropertyTypeAndNeighborhood(chosenPropertyType, chosenNeighborhood));
                 System.out.println("");
-                System.out.println(chosenPropertyType + "S in " + chosenNeighborhood + "range from propertiesValueMin to propertiesValueMax");
 
             } else {
                 System.out.println("What's your estimated budget?");
@@ -107,7 +109,15 @@ public class Main {
             }
         }
 
-        System.out.println("Thank you for using our services. If you are interested in one of our properties please contact one of our brokers: ");
+        //ask if the customer would like to rent or buy the property selected. It would say
+        //if its for sale or rent or both and show the info needed to proceed with the operation.
+        System.out.println("Are you interested in renting or buying the property selected?");
+        Operation.showOperationsByNumber();
+        int op = input.nextInt();
+        //implement the interfaces methods
+
+
+        System.out.println("Thank you for using our services. Please contact one of our brokers for more information: ");
         agency.showBrokers();
 
 

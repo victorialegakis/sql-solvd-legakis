@@ -2,8 +2,10 @@ package hometask.two;
 
 import hometask.two.enums.Neighborhood;
 import hometask.two.enums.PropertyType;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RealStateAgency {
@@ -83,16 +85,22 @@ public class RealStateAgency {
     }
 
     public Customer askAndSaveCustomerData() {
+        //apply try except and logger
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter the following:");
         System.out.println("First name: ");
         String fn = input.nextLine();
         System.out.println("Last name: ");
         String ln = input.nextLine();
-        System.out.println("Phone number: ");
-        long pn = input.nextLong();
         System.out.println("Mail Address: ");
-        String ma = input.next();
+        String ma = input.nextLine();
+        System.out.println("Phone number: ");
+        long pn = 0;
+        try {
+            pn = input.nextLong();
+        } catch (InputMismatchException e) {
+            LogManager.getLogger(RealStateAgency.class).atError().log("You haven't entered a long number");
+        }
         Customer customer = new Customer(fn, ln, pn, ma);
         addCustomer(customer);
         return customer;

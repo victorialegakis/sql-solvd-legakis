@@ -1,4 +1,4 @@
 package hometask.two.interfaces;
 
-public interface Operable {
+public interface Operable extends Sellable, Leaseable {
 }
