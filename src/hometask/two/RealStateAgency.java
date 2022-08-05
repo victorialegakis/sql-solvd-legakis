@@ -4,6 +4,7 @@ import hometask.two.enums.Neighborhood;
 import hometask.two.enums.PropertyType;
 
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class RealStateAgency {
     private static final String nameOfAgency = "Asahi Real Estate";
@@ -23,6 +24,7 @@ public class RealStateAgency {
     }
 
     public int quantityOfProperties() {
+
         return listOfProperties.size();
     }
 
@@ -34,49 +36,65 @@ public class RealStateAgency {
         }
     }
 
-    public void showByNeighborhood(Neighborhood n) {
+    public ArrayList getListByNeighborhood(Neighborhood n) {
+        ArrayList<Property> propertiesByNeighborhood = new ArrayList<>();
         for (Property p : listOfProperties) {
-            if (p.showNeighborhood() == n) {
-                System.out.println(p);
+            if (p.getNeighborhood() == n) {
+                propertiesByNeighborhood.add(p);
             }
         }
+        return propertiesByNeighborhood;
     }
 
-    public void showPropertyType(PropertyType type, Neighborhood n) {
-        for (Property p : listOfProperties) {
-            if (p.showNeighborhood() == n) {
-                if (type.equals(PropertyType.HOUSE)) {
-                    Property.showHouse(p);
-                } else if (type.equals(PropertyType.APARTMENT)) {
-                    Property.showApartments(p);
-                } else {
-                    Property.showLands(p);
-                }
+    public ArrayList<Property> getListByPropertyTypeAndNeighborhood(PropertyType type, Neighborhood n) {
+        ArrayList<Property> listByNeighborhood = getListByNeighborhood(n);
+        ArrayList<Property> propertiesByTypeAndNeighborhood = new ArrayList<>();
+        for (Property p : listByNeighborhood) {
+            String pClass = p.getClass().getSimpleName();
+            if (pClass.equalsIgnoreCase(String.valueOf(type))) {
+                propertiesByTypeAndNeighborhood.add(p);
             }
+
         }
+        return propertiesByTypeAndNeighborhood;
     }
 
-
-    public void showByBudget(PropertyType type, Neighborhood n, int budget) {
-        for (Property p : listOfProperties) {
+    public ArrayList<Property> getListByPropertyTypeNeighborhoodAndBudget(PropertyType type, Neighborhood n, int budget) {
+        ArrayList<Property> listByPropertyTypeAndNeighborhood = getListByPropertyTypeAndNeighborhood(type, n);
+        ArrayList<Property> propertiesByTypeNeighborhoodAndBudget = new ArrayList<>();
+        for (Property p : listByPropertyTypeAndNeighborhood) {
             if (p.getPrice() <= budget) {
-                showPropertyType(type, n);
+                propertiesByTypeNeighborhoodAndBudget.add(p);
             }
         }
-
+        return propertiesByTypeNeighborhoodAndBudget;
     }
 
-
-    public void addProperty(Property p) {
-        this.listOfProperties.add(p);
+    public void addBroker(Broker broker) {
+        this.listOfBrokers.add(broker);
     }
 
-    public void addBroker(Broker b) {
-        this.listOfBrokers.add(b);
+    public void addProperty(Property property) {
+        this.listOfProperties.add(property);
     }
 
-    public void addCustomer(Customer c) {
-        this.listOfCustomers.add(c);
+    private void addCustomer(Customer customer) {
+        this.listOfCustomers.add(customer);
     }
 
+    public Customer askAndSaveCustomerData() {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter the following:");
+        System.out.println("First name: ");
+        String fn = input.nextLine();
+        System.out.println("Last name: ");
+        String ln = input.nextLine();
+        System.out.println("Phone number: ");
+        long pn = input.nextLong();
+        System.out.println("Mail Address: ");
+        String ma = input.next();
+        Customer customer = new Customer(fn, ln, pn, ma);
+        addCustomer(customer);
+        return customer;
+    }
 }

@@ -19,6 +19,7 @@ public final class Customer extends Person {
     }
 
     public int getBudget() {
+
         return budget;
     }
 

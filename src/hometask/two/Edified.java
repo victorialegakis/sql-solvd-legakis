@@ -2,7 +2,7 @@ package hometask.two;
 
 import hometask.two.enums.Neighborhood;
 
-public class Edified extends Property {
+public abstract class Edified extends Property {
     private int area;
     private int numberOfSpaces;
     private int numberOfBathrooms;

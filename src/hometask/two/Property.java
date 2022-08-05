@@ -2,18 +2,18 @@ package hometask.two;
 
 import hometask.two.enums.Neighborhood;
 
-public class Property {
-    private String ID;
+public abstract class Property {
+    private String id;
     private int price;
     private Neighborhood neighborhood;
 
-    public Property(String ID, int price, Neighborhood neighborhood) {
-        this.ID = ID;
+    public Property(String id, int price, Neighborhood neighborhood) {
+        this.id = id;
         setPrice(price);
         this.neighborhood = neighborhood;
     }
 
-    public Neighborhood showNeighborhood() {
+    public Neighborhood getNeighborhood() {
         return neighborhood;
     }
 
@@ -26,25 +26,8 @@ public class Property {
         return price;
     }
 
-    public static void showHouse(Property p) {
-        if (p instanceof House) {
-            System.out.println(p);
-        }
-    }
+    public abstract int calculateFinalPrice();
 
-
-    public static void showApartments(Property p) {
-        if (p instanceof Apartment) {
-            System.out.println(p);
-        }
-    }
-
-
-    public static void showLands(Property p) {
-        if (p instanceof Land) {
-            System.out.println(p);
-        }
-    }
 
     public int propertiesValueMin(Neighborhood neighborhood) {
         int valueMin = Integer.MAX_VALUE;
@@ -59,7 +42,7 @@ public class Property {
 
     @Override
     public String toString() {
-        return "ID: " + ID +
+        return "ID: " + id +
                 ", neighborhood: " + neighborhood +
                 ", ";
     }

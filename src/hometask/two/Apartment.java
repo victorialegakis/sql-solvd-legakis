@@ -28,6 +28,11 @@ public final class Apartment extends Edified {
 
 
     @Override
+    public int calculateFinalPrice() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return "Apartment{" + super.toString() +
                 "floorNumber: " + floorNumber +

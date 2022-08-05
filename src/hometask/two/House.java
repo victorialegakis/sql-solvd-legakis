@@ -26,6 +26,11 @@ public final class House extends Edified {
 
 
     @Override
+    public int calculateFinalPrice() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return "House{" + super.toString() +
                 "hasGarden: " + setHasGarden(hasGarden) +

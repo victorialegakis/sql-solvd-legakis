@@ -24,6 +24,11 @@ public final class Land extends Property {
         return systemEnabled;
     }
 
+    @Override
+    public int calculateFinalPrice() {
+
+        return 0;
+    }
 
     @Override
     public String toString() {
