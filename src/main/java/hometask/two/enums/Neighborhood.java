@@ -1,5 +1,7 @@
 package hometask.two.enums;
 
+import hometask.two.exceptions.OptionOutOfRangeException;
+
 public enum Neighborhood {
     SHINJUKU, ASAKUSA, GINZA, SHIBUYA;
 
@@ -16,9 +18,13 @@ public enum Neighborhood {
     }
 
     public static Neighborhood saveChosenNeighborhood(int numOfChosenNeighborhood) {
-        Neighborhood[] listOfNeighborhoods = getNeighborhoodValues();
-        Neighborhood chosenNeighborhood = listOfNeighborhoods[numOfChosenNeighborhood - 1];
-
-        return chosenNeighborhood;
+        Neighborhood[] listOfNeighborhoods = new Neighborhood[0];
+        if (numOfChosenNeighborhood > Neighborhood.getNeighborhoodValues().length) {
+            throw new OptionOutOfRangeException();
+        } else {
+            listOfNeighborhoods = getNeighborhoodValues();
+            Neighborhood chosenNeighborhood = listOfNeighborhoods[numOfChosenNeighborhood - 1];
+            return chosenNeighborhood;
+        }
     }
 }

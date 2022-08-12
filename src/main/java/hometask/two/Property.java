@@ -2,14 +2,15 @@ package hometask.two;
 
 import hometask.two.enums.Neighborhood;
 
+
 public abstract class Property {
     private String id;
-    private int price; //will be base price
     private Neighborhood neighborhood;
+    private int basePrice;
 
-    public Property(String id, int price, Neighborhood neighborhood) {
+    public Property(String id, int basePrice, Neighborhood neighborhood) {
         this.id = id;
-        setPrice(price);
+        setBasePrice(basePrice);
         this.neighborhood = neighborhood;
     }
 
@@ -17,13 +18,17 @@ public abstract class Property {
         return neighborhood;
     }
 
-    private void setPrice(int price) {
-        if (price > 0)
-            this.price = price;
+    public String getId() {
+        return id;
     }
 
-    public int getPrice() {
-        return price;
+    private void setBasePrice(int basePrice) {
+        if (basePrice > 0)
+            this.basePrice = basePrice;
+    }
+
+    public int getBasePrice() {
+        return basePrice;
     }
 
     public abstract int calculateFinalPrice();

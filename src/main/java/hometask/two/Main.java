@@ -1,12 +1,16 @@
 package hometask.two;
 
 import hometask.two.enums.*;
+import hometask.two.exceptions.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
+        final Logger LOG_MAIN = LogManager.getLogger(Main.class.getName());
         //show name of Agency
         RealStateAgency.showNameOfAgency();
         //create an instance of Real Estate Agency
@@ -33,15 +37,23 @@ public class Main {
         agency.addProperty(new Land("11AZC", 4000, Neighborhood.ASAKUSA, true, 300));
         agency.addProperty(new Land("97IDW", 7000, Neighborhood.SHIBUYA, false, 150));
         agency.addProperty(new Land("56IDW", 10000, Neighborhood.SHINJUKU, false, 200));
-
         //ask data to the customer
-        Customer costumerData = agency.askAndSaveCustomerData();
-
+        Customer costumerData = null;
+        try {
+            costumerData = agency.askAndSaveCustomerData();
+        } catch (CustomerEmailInputException e) {
+            LOG_MAIN.error(e.getMessage());
+        } catch (CustomerNumberInputException e) {
+            LOG_MAIN.error(e.getMessage());
+        }
         //give back username for the customer
-        System.out.println("Thank you " + costumerData.showFullName(costumerData.getFirstName(), costumerData.getLastName()) + ". Your registration information has been saved.");
-        System.out.println("");
-        System.out.println("Your username has been automatically generated to " + costumerData.getUsername().toLowerCase() + " for future visits.");
-
+        try {
+            System.out.println("Thank you " + costumerData.showFullName(costumerData.getFirstName(), costumerData.getLastName()) + ". Your registration information has been saved.");
+            System.out.println("");
+            System.out.println("Your username has been automatically generated to " + costumerData.getUsername().toLowerCase() + " for future visits.");
+        } catch (NullPointerException e) {
+            LOG_MAIN.warn("The customer data has not been fully collected");
+        }
 
         //show Options to the Customer
         System.out.println("We currently have " + agency.quantityOfProperties() + " properties available in all of our website.");
@@ -52,9 +64,15 @@ public class Main {
         Neighborhood.showNeighborhoodsByNumber();
 
         //save option of neighborhood chosen
-        int numOfChosenNeighborhood = input.nextInt();
-        Neighborhood chosenNeighborhood = Neighborhood.saveChosenNeighborhood(numOfChosenNeighborhood);
-
+        Neighborhood chosenNeighborhood = null;
+        try {
+            int numOfChosenNeighborhood = input.nextInt();
+            chosenNeighborhood = Neighborhood.saveChosenNeighborhood(numOfChosenNeighborhood);
+        } catch (OptionOutOfRangeException e) {
+            LOG_MAIN.warn(e.getMessage());
+            //gives by default the value of the first neighborhood
+            chosenNeighborhood = Neighborhood.values()[0];
+        }
         //ask if they would like to filter by property type as well
         System.out.println("You've chosen to look for properties in " + chosenNeighborhood + ". " +
                 "Would you like to filter by property type?");
@@ -66,7 +84,7 @@ public class Main {
 
         //if it's no, it'll just show all properties in the selected neighborhood,
         // else it will show a list of property types to choose from.
-        if (yesOrNo1 != Decision.getOptionsByNumber()[0].ordinal() + 1) {
+        if (yesOrNo1 != 1) {
             System.out.println("Here's a list of all properties in " + chosenNeighborhood + ".");
             System.out.println(agency.getListByNeighborhood(chosenNeighborhood));
             System.out.println("");
@@ -89,7 +107,7 @@ public class Main {
             //if it's no, it'll show properties of that property type in the desired neighborhood.
             // else it'll ask for the customer budget
 
-            if (yesOrNo2 != Decision.getOptionsByNumber()[0].ordinal() + 1) {
+            if (yesOrNo2 != 1) {
                 System.out.println("Here's a list of all " + chosenPropertyType + "S in your desired area.");
                 System.out.println(agency.getListByPropertyTypeAndNeighborhood(chosenPropertyType, chosenNeighborhood));
                 System.out.println("");
@@ -108,18 +126,33 @@ public class Main {
                 System.out.println(agency.getListByPropertyTypeNeighborhoodAndBudget(chosenPropertyType, chosenNeighborhood, bd));
             }
         }
+        System.out.println("Are you interested in any of the properties shown before?");
+        Decision.showOptionsByNumber();
+        int yesOrNo3 = input.nextInt();
+        if (yesOrNo3 == 1) {
+            System.out.println("Please enter the ID of the property you'd like more info in");
+            Property propertySelected = null;
+            try {
+                String idSelected = input.next();
+                propertySelected = agency.getPropertyByID(idSelected);
+            } catch (PropertyNotFoundException e) {
+                LOG_MAIN.info(e.getMessage());
+            }
 
-        //ask if the customer would like to rent or buy the property selected. It would say
-        //if its for sale or rent or both and show the info needed to proceed with the operation.
-        System.out.println("Are you interested in renting or buying the property selected?");
-        Operation.showOperationsByNumber();
-        int op = input.nextInt();
-        //implement the interfaces methods
+            //ask if the customer would like to rent or buy the property selected. It would say
+            //if its for sale or rent or both and show the info needed to proceed with the operation.
+            System.out.println("Are you interested in renting or buying the property selected?");
+            Operation.showOperationsByNumber();
+            int op = input.nextInt();
+            try {
+                agency.showSaleOrLeaseInfo(propertySelected, op);
+            } catch (IllegalOperationException e) {
+                LOG_MAIN.error("Lands are not up for rent");
+            }
 
-
-        System.out.println("Thank you for using our services. Please contact one of our brokers for more information: ");
+        }
+        System.out.println("Thank you for using our services. Please contact one of our brokers if you would like another type of information: ");
         agency.showBrokers();
-
 
     }
 }

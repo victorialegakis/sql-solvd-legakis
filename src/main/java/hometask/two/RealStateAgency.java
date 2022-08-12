@@ -2,21 +2,28 @@ package hometask.two;
 
 import hometask.two.enums.Neighborhood;
 import hometask.two.enums.PropertyType;
+import hometask.two.exceptions.CustomerEmailInputException;
+import hometask.two.exceptions.CustomerNumberInputException;
+import hometask.two.exceptions.IllegalOperationException;
+import hometask.two.exceptions.PropertyNotFoundException;
+import hometask.two.generics.CustomLinkedList;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class RealStateAgency {
     private static final String nameOfAgency = "Asahi Real Estate";
     private ArrayList<Property> listOfProperties;
-    private ArrayList<Broker> listOfBrokers;
+    private CustomLinkedList<Broker> listOfBrokers;
     private ArrayList<Customer> listOfCustomers;
+
+    final Logger LOG_AGENCY = LogManager.getLogger(Main.class.getName());
 
     public RealStateAgency() {
         this.listOfProperties = new ArrayList<>();
-        this.listOfBrokers = new ArrayList<>();
+        this.listOfBrokers = new CustomLinkedList<>();
         this.listOfCustomers = new ArrayList<>();
     }
 
@@ -32,10 +39,7 @@ public class RealStateAgency {
 
 
     public void showBrokers() {
-        for (Broker b : listOfBrokers) {
-            System.out.println(b.showFullName(b.getFirstName(), b.getLastName()));
-            System.out.println(b);
-        }
+        System.out.println(listOfBrokers);
     }
 
     public ArrayList getListByNeighborhood(Neighborhood n) {
@@ -65,7 +69,7 @@ public class RealStateAgency {
         ArrayList<Property> listByPropertyTypeAndNeighborhood = getListByPropertyTypeAndNeighborhood(type, n);
         ArrayList<Property> propertiesByTypeNeighborhoodAndBudget = new ArrayList<>();
         for (Property p : listByPropertyTypeAndNeighborhood) {
-            if (p.getPrice() <= budget) {
+            if (p.getBasePrice() <= budget) {
                 propertiesByTypeNeighborhoodAndBudget.add(p);
             }
         }
@@ -73,7 +77,7 @@ public class RealStateAgency {
     }
 
     public void addBroker(Broker broker) {
-        this.listOfBrokers.add(broker);
+        this.listOfBrokers.addLast(broker);
     }
 
     public void addProperty(Property property) {
@@ -84,7 +88,7 @@ public class RealStateAgency {
         this.listOfCustomers.add(customer);
     }
 
-    public Customer askAndSaveCustomerData() {
+    public Customer askAndSaveCustomerData() throws CustomerNumberInputException, CustomerEmailInputException {
         //apply try except and logger
         Scanner input = new Scanner(System.in);
         System.out.println("Please enter the following:");
@@ -94,15 +98,54 @@ public class RealStateAgency {
         String ln = input.nextLine();
         System.out.println("Mail Address: ");
         String ma = input.nextLine();
+        if (!ma.contains("@")) {
+            throw new CustomerEmailInputException();
+        }
         System.out.println("Phone number: ");
-        long pn = 0;
-        try {
-            pn = input.nextLong();
-        } catch (InputMismatchException e) {
-            LogManager.getLogger(RealStateAgency.class).atError().log("You haven't entered a long number");
+        long pn = input.nextLong();
+        if (pn > Integer.MAX_VALUE) {
+            throw new CustomerNumberInputException();
         }
         Customer customer = new Customer(fn, ln, pn, ma);
         addCustomer(customer);
         return customer;
+    }
+
+    public Property getPropertyByID(String idSelected) throws PropertyNotFoundException {
+        Property propertyByID = null;
+        for (Property p : listOfProperties) {
+            if (p.getId().equalsIgnoreCase(idSelected)) {
+                propertyByID = p;
+                break;
+            } else {
+                throw new PropertyNotFoundException();
+            }
+        }
+        return propertyByID;
+    }
+
+    public void showSaleOrLeaseInfo(Property propertySelected, int op) throws IllegalOperationException {
+        try {
+            String propertySelectedClass = propertySelected.getClass().getSimpleName();
+            if (propertySelectedClass.equals("Land")) {
+                if (op == 1) {
+                    throw new IllegalOperationException();
+                } else {
+                    //downcasting
+                    Land landSelected = (Land) propertySelected;
+                    landSelected.getSaleInfo();
+                }
+            } else {
+                //downcasting
+                Edified edifiedSelected = (Edified) propertySelected;
+                if (op == 1) {
+                    edifiedSelected.getLeaseInfo();
+                } else {
+                    edifiedSelected.getSaleInfo();
+                }
+            }
+        } catch (NullPointerException e) {
+            LOG_AGENCY.error("The property has not been selected");
+        }
     }
 }

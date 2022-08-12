@@ -1,6 +1,6 @@
 package hometask.two.interfaces;
 
-public interface Identifiable {
+public interface IIdentifiable {
 
     public abstract void showId();
 }
