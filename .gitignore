@@ -1,5 +1,6 @@
 .idea/
 LABA.iml
 out/
-src/TaskOne.class/
-src/hometask/one/TaskOne.class/
+src/main/java/TaskOne.class
+src/main/java/hometask/one/TaskOne.class
+target
