@@ -1,17 +1,18 @@
 package hometask.two;
 
-import hometask.two.enums.Neighborhood;
-import hometask.two.enums.PropertyType;
 import hometask.two.exceptions.CustomerEmailInputException;
 import hometask.two.exceptions.CustomerNumberInputException;
 import hometask.two.exceptions.IllegalOperationException;
 import hometask.two.exceptions.PropertyNotFoundException;
 import hometask.two.generics.CustomLinkedList;
+import hometask.two.interfaces.functional.IBookable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class RealStateAgency {
     private static final String nameOfAgency = "Asahi Real Estate";
@@ -19,7 +20,7 @@ public class RealStateAgency {
     private CustomLinkedList<Broker> listOfBrokers;
     private ArrayList<Customer> listOfCustomers;
 
-    final Logger LOG_AGENCY = LogManager.getLogger(Main.class.getName());
+    final Logger LOG_AGENCY = LogManager.getLogger(RealStateAgency.class.getName());
 
     public RealStateAgency() {
         this.listOfProperties = new ArrayList<>();
@@ -32,6 +33,10 @@ public class RealStateAgency {
         System.out.println("Welcome to " + nameOfAgency + " services. We are glad to have you here.");
     }
 
+    public static String agencyAddress() {
+        return "4258 Cimmaron Road, Santa Ana, CA 92701";
+    }
+
     public int quantityOfProperties() {
 
         return listOfProperties.size();
@@ -42,38 +47,8 @@ public class RealStateAgency {
         System.out.println(listOfBrokers);
     }
 
-    public ArrayList getListByNeighborhood(Neighborhood n) {
-        ArrayList<Property> propertiesByNeighborhood = new ArrayList<>();
-        for (Property p : listOfProperties) {
-            if (p.getNeighborhood() == n) {
-                propertiesByNeighborhood.add(p);
-            }
-        }
-        return propertiesByNeighborhood;
-    }
-
-    public ArrayList<Property> getListByPropertyTypeAndNeighborhood(PropertyType type, Neighborhood n) {
-        ArrayList<Property> listByNeighborhood = getListByNeighborhood(n);
-        ArrayList<Property> propertiesByTypeAndNeighborhood = new ArrayList<>();
-        for (Property p : listByNeighborhood) {
-            String pClass = p.getClass().getSimpleName();
-            if (pClass.equalsIgnoreCase(String.valueOf(type))) {
-                propertiesByTypeAndNeighborhood.add(p);
-            }
-
-        }
-        return propertiesByTypeAndNeighborhood;
-    }
-
-    public ArrayList<Property> getListByPropertyTypeNeighborhoodAndBudget(PropertyType type, Neighborhood n, int budget) {
-        ArrayList<Property> listByPropertyTypeAndNeighborhood = getListByPropertyTypeAndNeighborhood(type, n);
-        ArrayList<Property> propertiesByTypeNeighborhoodAndBudget = new ArrayList<>();
-        for (Property p : listByPropertyTypeAndNeighborhood) {
-            if (p.getBasePrice() <= budget) {
-                propertiesByTypeNeighborhoodAndBudget.add(p);
-            }
-        }
-        return propertiesByTypeNeighborhoodAndBudget;
+    public ArrayList<Property> listOfPropertiesFilteredByRule(Predicate<Property> p) {
+        return (ArrayList<Property>) listOfProperties.stream().filter(p).collect(Collectors.toList());
     }
 
     public void addBroker(Broker broker) {
@@ -114,9 +89,8 @@ public class RealStateAgency {
     public Property getPropertyByID(String idSelected) throws PropertyNotFoundException {
         Property propertyByID = null;
         for (Property p : listOfProperties) {
-            if (p.getId().equalsIgnoreCase(idSelected)) {
+            if (idSelected.equalsIgnoreCase(p.getId())) {
                 propertyByID = p;
-                break;
             } else {
                 throw new PropertyNotFoundException();
             }
@@ -147,5 +121,9 @@ public class RealStateAgency {
         } catch (NullPointerException e) {
             LOG_AGENCY.error("The property has not been selected");
         }
+    }
+
+    public String addAppointment(IBookable bookable) {
+        return bookable.bookAppointment(askAndSaveCustomerData());
     }
 }

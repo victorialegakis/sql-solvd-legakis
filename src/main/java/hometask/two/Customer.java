@@ -1,5 +1,7 @@
 package hometask.two;
 
+import hometask.two.interfaces.functional.IContractable;
+
 public final class Customer extends Person {
     private int budget;
     private String username;
@@ -19,6 +21,11 @@ public final class Customer extends Person {
         return "dear customer " + firstName + " " + lastName;
 
     }
+
+    public void establishContract(IContractable contractable) {
+        contractable.makeContract(showFullName(getFirstName(), getLastName()), RealStateAgency.agencyAddress());
+    }
+
 
     public void setBudget(int budget) {
         this.budget = budget;

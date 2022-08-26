@@ -1,0 +1,46 @@
+The era of hybrid technology integration is here. Industries are developing technology to distribute AI software to millions of graphics and computer processors around the world. AI, ML and natural language processing done through advanced computing will be used to solve a variety of challenges. Robotic appliances are becoming more ingrained in the deployment of AI. Soon smart robotics will have major implications for sustainability, health and even how we fight wars in the future. There’s still a great deal of uncertainty and confusion surrounding the jargon used around this technology:
+
+Artificial Intelligence is the ability of machines to execute tasks and solve problems in ways normally attributed to humans. However, AI machines are limited by the manual nature of their programming – they cannot do, or learn to do, anything else.
+
+Robotic Process Automation is an emerging form of business process automation technology based on the notion of software robots or AI workers.
+
+Machine Learning is a branch of artificial intelligence, and the basis on which all large-scale Internet companies are built. It is the process of giving systems the ability to automatically learn and improve based on the data given to them. For example, search engines utilise rigorously honed algorithms to rank responses to a search query, give suggestions, and select the most relevant content for a given user.
+
+Deep Learning is modelled on the human brain and is infinitely more complex level. Unlike machine learning, deep learning can teach machines to ignore all but the important characteristics of a sound or image. Deep learning opened the door to driverless cars, and medical analysis systems that are more effective at identifying early stage tumours than the human eye.
+
+Cognitive Process Automation is enabled by the convergence of robotic process automation, machine learning, cognitive platforms and advanced analytics.
+
+Cognitive Augmentation mimics human activities such as perceiving, inferring, gathering evidence, hypothesizing, and reasoning. When combined with advanced automation, analytics, mobile and cloud technologies, these systems can be trained to execute judgment-intensive tasks.
+
+The Fusion of Deep learning, combined with Augmented Reality (AR) and Virtual Reality technologies (VR)
+
+It’s the ultimate Sci-Fi nightmare scenario: Highly intelligent robot’s rebel, often violently and with the aim of eradicating or enslaving humanity – HAL in ‘2001: A Space Odyssey’, NORAD super-computer WOPR in ‘War Games’, followed by the formidable double act of Skynet and its electromechanical creation the Cyberdyne ‘Model 101’, aka ‘The Terminator’.
+
+This hysteria wasn’t born in the 1980’s – over 70 years ago, science fiction writer Isaac Asimov’s short story ‘Runaround’ within his novel ‘I, Robot’, devised a mandate that many AI developers reference as their guiding principle for AI safety, the ‘Three Laws of Robotics’:
+
+A robot may not injure a human being or, through inaction, allow a human being to come to harm;
+A robot must obey the orders given it by human beings except where such orders would conflict with the First Law;
+A robot must protect its own existence as long as such protection does not conflict with the First or Second laws.
+Asimov’s ‘I, Robot’ depicted how robotics could aid human rehabilitation and also how human perversion and manipulation of AI will likely be the undermining threat to humanity from AI, as opposed to conspiring cognitive calculations of malice devised by the machines’ deep learning.
+
+A team at Tufts University in Massachusetts is now training robots through ML to refuse a broad gamut of human commands if those commands could cause harm to either the robot itself or a human being. It’s possible for humans to override the AI’s ethical system, but only if they are known and trusted by robot, otherwise the command is ignored.
+
+While emerging AI constraints and the possibility to override safety commands may not be a perfect replica of Asimov’s directives, developers have already taken initial steps toward a kind of AI ethical code, which sets out to prevent the technological doomsday that dystopian writers and technophobes seem to thrive upon.
+
+Fears of technological progress are not just confined to sci-fi depictions – In 1952, many credible scientists protested at ‘Operation Ivy: Mike’, citing that the hydrogen bomb would chain react with the hydrogen in Earth’s atmosphere and transform the planet into a new sun. In 2008, scientific opponents lodged a lawsuit at the European Court for Human Rights against the 20 countries, including the UK that funded the CERN (European Organisation for Nuclear Research) Large Hadron Collider project; even people in Hawaii lodged a court order with the US Supreme Court to force the US Government to intervene. They feared the machine that smashes atoms together at high speed and generates temperatures of more than a trillion degrees centigrade would likely create a mini-black hole that could tear the earth apart.
+
+Alas, the sun didn’t gain a competitor and the planet is still in one piece. The continuous sci-fi movie blockbuster sequels that perceived human extinction via computer-led nuclear and robotic annihilation have been cancelled. In it’s place are human interfaces such as Google Glass and Oculus Rift, along with voice companions such as Siri, Alexa and Cortana. These technologies have showcased physical examples of the fusion of AI, AR and VR in a variety of fields including architecture, entertainment, medical, autonomous transport and defence. In a similar direction, hydrogen science has become a path for alternative energy and the experiments at CERN are unravelling many theories to do with the beginning of the universe.
+
+AI and AR fused with advanced imaging technology
+
+Advanced imaging science, combined with skilled engineering, has led to near-perfect optical character recognition (OCR) capabilities in both document scanners and cameras. New algorithms interact with a library of form recognition protocols to build the integration of contextual logic databases for automated validation. This has advanced ‘imaging technologies’ vastly over the past several years.
+
+The technological convergence of physical and cognitive technologies crosses many verticals and will permeate many aspects of our lives, not least security. Radar and imaging technologies have been an essential part of security screening, especially in aviation security. Aviation and event security use different kinds of sensors, such as X-rays and millimeter waves.
+
+Recent events in Las Vegas, Manchester, Istanbul and Brussels have highlighted that traditional security and ‘airside’ checkpoint areas have been exploited to deadly consequence. Security professionals worldwide are unified that security management requires immediate actionable intelligence as early as possible. Remote detection, combined with AI and simple alarms that integrate seamlessly with existing systems, are technologies that will enable this need. The fusion of Deep Learning with sensor technology is at the core of our mandate at Plymouth Rock Technologies.
+
+Together, we are now entering a new era of emerging techno-fusion connected technologies that blend traditional engineering, algorithms, the physical and culture, which are stepping-stones to a new renaissance in technological change.
+
+Just as Plymouth Rock was the stepping-stone to the new world, Plymouth Rock Technologies’ founders worked on the first Hadron Collider technologies. Today, we are reimagining sensory detection and fully autonomous Unmanned Aircraft System capabilities to assist rescue services and law enforcement. With a strong interdisciplinary approach to our work, we are paving the way to a new world of advanced security and safety awareness.
+
+No matter how promising the technological solutions, we will always have our challenges. What is evident is that science and technology will shape our futures – how we work to steer it and orchestrate all the interconnections will be in itself transforming.

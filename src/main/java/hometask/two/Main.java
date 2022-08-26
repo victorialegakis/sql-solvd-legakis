@@ -5,7 +5,10 @@ import hometask.two.exceptions.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Scanner;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -45,20 +48,21 @@ public class Main {
             LOG_MAIN.error(e.getMessage());
         } catch (CustomerNumberInputException e) {
             LOG_MAIN.error(e.getMessage());
+            //add retry logic
         }
         //give back username for the customer
         try {
-            System.out.println("Thank you " + costumerData.showFullName(costumerData.getFirstName(), costumerData.getLastName()) + ". Your registration information has been saved.");
-            System.out.println("");
-            System.out.println("Your username has been automatically generated to " + costumerData.getUsername().toLowerCase() + " for future visits.");
+            LOG_MAIN.info("Thank you " + costumerData.showFullName(costumerData.getFirstName(), costumerData.getLastName()) + ". Your registration information has been saved.");
+            LOG_MAIN.info("Your username has been automatically generated to " + costumerData.getUsername().toLowerCase() + " for future visits.");
         } catch (NullPointerException e) {
             LOG_MAIN.warn("The customer data has not been fully collected");
+            //add retry logic
         }
 
         //show Options to the Customer
-        System.out.println("We currently have " + agency.quantityOfProperties() + " properties available in all of our website.");
-        System.out.println("");
-        System.out.println("Where would you like to search a property in?");
+        LOG_MAIN.info("We currently have " + agency.quantityOfProperties() + " properties available in all of our website.");
+
+        LOG_MAIN.info("Where would you like to search a property in?");
 
         //show neighborhoods where properties are located
         Neighborhood.showNeighborhoodsByNumber();
@@ -74,7 +78,7 @@ public class Main {
             chosenNeighborhood = Neighborhood.values()[0];
         }
         //ask if they would like to filter by property type as well
-        System.out.println("You've chosen to look for properties in " + chosenNeighborhood + ". " +
+        LOG_MAIN.info("You've chosen to look for properties in " + chosenNeighborhood + ". " +
                 "Would you like to filter by property type?");
         //show Yes or No option
         Decision.showOptionsByNumber();
@@ -84,10 +88,10 @@ public class Main {
 
         //if it's no, it'll just show all properties in the selected neighborhood,
         // else it will show a list of property types to choose from.
+        Neighborhood finalChosenNeighborhood = chosenNeighborhood;
         if (yesOrNo1 != 1) {
-            System.out.println("Here's a list of all properties in " + chosenNeighborhood + ".");
-            System.out.println(agency.getListByNeighborhood(chosenNeighborhood));
-            System.out.println("");
+            LOG_MAIN.info("Here's a list of all properties in " + chosenNeighborhood + ".");
+            LOG_MAIN.info(agency.listOfPropertiesFilteredByRule(property -> finalChosenNeighborhood.equals(property.getNeighborhood())));
 
         } else {
             //show property types options
@@ -98,7 +102,7 @@ public class Main {
             PropertyType chosenPropertyType = PropertyType.saveChosenPropertyType(numOfTypeChosen);
 
             //ask if they would like to filter by budget as well
-            System.out.println("You've chosen to look for " + chosenPropertyType + ". Do you have a budget?");
+            LOG_MAIN.info("You've chosen to look for " + chosenPropertyType + ". Do you have a budget?");
             Decision.showOptionsByNumber();
 
             //save Yes or No option selected
@@ -108,40 +112,43 @@ public class Main {
             // else it'll ask for the customer budget
 
             if (yesOrNo2 != 1) {
-                System.out.println("Here's a list of all " + chosenPropertyType + "S in your desired area.");
-                System.out.println(agency.getListByPropertyTypeAndNeighborhood(chosenPropertyType, chosenNeighborhood));
-                System.out.println("");
+                LOG_MAIN.info("Here's a list of all " + chosenPropertyType + "S in your desired area.");
+                LOG_MAIN.info(agency.listOfPropertiesFilteredByRule(property -> finalChosenNeighborhood.equals(property.getNeighborhood()) && property.getClass().getSimpleName().equalsIgnoreCase(String.valueOf(chosenPropertyType))));
+
 
             } else {
-                System.out.println("What's your estimated budget?");
+                LOG_MAIN.info("What's your estimated budget?");
 
                 //save the customers budget
                 int bd = input.nextInt();
                 costumerData.setBudget(bd);
-                System.out.println("You've just set up your budget for " + costumerData.getBudget() + ". Here's all the " + chosenPropertyType + "S in " + chosenNeighborhood +
+                LOG_MAIN.info("You've just set up your budget for " + costumerData.getBudget() + ". Here's all the " + chosenPropertyType + "S in " + chosenNeighborhood +
                         " below or equal to your budget.");
 
                 //show properties in the below or equal to the budget, of the desired property type
                 // and in the neighborhood selected.
-                System.out.println(agency.getListByPropertyTypeNeighborhoodAndBudget(chosenPropertyType, chosenNeighborhood, bd));
+                Customer finalCostumerData = costumerData;
+                LOG_MAIN.info(agency.listOfPropertiesFilteredByRule(property -> finalChosenNeighborhood.equals(property.getNeighborhood()) && property.getClass().getSimpleName().equalsIgnoreCase(String.valueOf(chosenPropertyType)) && property.calculateFinalPrice() <= finalCostumerData.getBudget()));
             }
         }
-        System.out.println("Are you interested in any of the properties shown before?");
+        LOG_MAIN.info("Are you interested in any of the properties shown before?");
         Decision.showOptionsByNumber();
         int yesOrNo3 = input.nextInt();
         if (yesOrNo3 == 1) {
-            System.out.println("Please enter the ID of the property you'd like more info in");
+            LOG_MAIN.info("Please enter the ID of the property you'd like more info in");
+            String idSelected = input.next();
             Property propertySelected = null;
             try {
-                String idSelected = input.next();
                 propertySelected = agency.getPropertyByID(idSelected);
             } catch (PropertyNotFoundException e) {
                 LOG_MAIN.info(e.getMessage());
+                //add retry logic
             }
 
             //ask if the customer would like to rent or buy the property selected. It would say
             //if its for sale or rent or both and show the info needed to proceed with the operation.
-            System.out.println("Are you interested in renting or buying the property selected?");
+            LOG_MAIN.info("Are you interested in renting or buying the property selected?");
+            costumerData.establishContract((costumer, address) -> LOG_MAIN.info("The contract will be established for " + costumer + " for the desired property in our agency, located at " + address));
             Operation.showOperationsByNumber();
             int op = input.nextInt();
             try {
@@ -151,8 +158,20 @@ public class Main {
             }
 
         }
-        System.out.println("Thank you for using our services. Please contact one of our brokers if you would like another type of information: ");
+        LOG_MAIN.info("Would you like to set an appointment for more information?");
+        Decision.showOptionsByNumber();
+        int yesOrNo4 = input.nextInt();
+        if (yesOrNo4 == 1) {
+            LOG_MAIN.info(agency.addAppointment((customer) -> {
+                SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+                Date date = new Date();
+                return "Your appointment is set to " + formatter.format(date);
+            }));
+        }
+        LOG_MAIN.info("Thank you for using our services. Please contact one of our brokers if you would like another type of information: ");
+        //add method print to linked list
         agency.showBrokers();
+
 
     }
 }

@@ -12,6 +12,7 @@ public final class Broker extends Person {
         Broker.location = "4258 Cimmaron Road, Santa Ana, CA 92701";
     }
 
+
     @Override
     public String showFullName(String firstName, String lastName) {
         return "Broker " + firstName + " " + lastName;
