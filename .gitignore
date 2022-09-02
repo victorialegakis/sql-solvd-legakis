@@ -2,5 +2,6 @@
 LABA.iml
 out/
 src/main/java/TaskOne.class
-src/main/java/hometask/one/TaskOne.class
+src/main/java/hometask/sorting/TaskOne.class
 target
+logs
