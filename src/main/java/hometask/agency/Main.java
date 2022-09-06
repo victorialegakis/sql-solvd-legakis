@@ -166,6 +166,7 @@ public class Main {
                 Operation.showOperationsByNumber();
                 int op = scanner.nextInt();
                 try {
+                    propertySelected.showId();
                     agency.showSaleOrLeaseInfo(propertySelected, op);
                 } catch (IllegalOperationException e) {
                     LOG_MAIN.error("Lands are not up for rent");

@@ -62,6 +62,11 @@ public final class Land extends Property implements ISellable {
         int maintenanceServiceTax = (int) (price * 0.001);
         return (int) (calculateFinalPrice() * 0.02 + maintenanceServiceTax);
     }
+
+    @Override
+    public void showId() {
+        LOG_LAND.info("Land listed no. " + getId());
+    }
 }
 
 

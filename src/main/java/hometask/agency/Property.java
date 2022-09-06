@@ -1,9 +1,10 @@
 package hometask.agency;
 
 import hometask.agency.enums.Neighborhood;
+import hometask.agency.interfaces.IIdentifiable;
 
 
-public abstract class Property {
+public abstract class Property implements IIdentifiable {
     private String id;
     private Neighborhood neighborhood;
     private int basePrice;

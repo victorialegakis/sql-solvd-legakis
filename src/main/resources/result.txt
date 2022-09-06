@@ -1,1 +1,1 @@
-Quantity of unique words is 673
+Quantity of unique words is 138

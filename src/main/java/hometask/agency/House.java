@@ -88,5 +88,10 @@ public final class House extends Edified {
         int keyTaxes = (int) (price * 0.005);
         return (int) (price * 0.05 + keyTaxes);
     }
+
+    @Override
+    public void showId() {
+        LOG_HOUSE.info("House listed as no. " + getId());
+    }
 }
 

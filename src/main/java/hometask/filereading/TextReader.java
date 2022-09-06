@@ -23,7 +23,7 @@ public class TextReader {
             e.printStackTrace();
         }
         if (!(fileContent.isEmpty())) {
-            String[] words = fileContent.split(" ");
+            String[] words = fileContent.split("\\W\\s");
             HashSet<String> uniqueWords = new HashSet<>(Arrays.asList(words));
             long countOfUniqueWords = uniqueWords.stream().count();
             String countWords = "Quantity of unique words is " + countOfUniqueWords;

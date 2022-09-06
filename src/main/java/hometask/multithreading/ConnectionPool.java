@@ -1,52 +1,64 @@
 package hometask.multithreading;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import java.util.Vector;
 
 public class ConnectionPool {
-    private BlockingQueue taskQueue = null;
-    private List<Connection> connections = new ArrayList<>();
+    final Logger LOG_CONNECTION_POOL = LogManager.getLogger(ConnectionPool.class.getName());
+    private static ConnectionPool connectionPool;
+    private final int noOfThreads;
+    private Vector<Connection> connections = new Vector<>();
     private boolean isStopped = false;
 
-    public ConnectionPool(int noOfThreads, int maxNoOfTasks) {
-        taskQueue = new ArrayBlockingQueue(maxNoOfTasks);
-
-        for (int i = 0; i < noOfThreads; i++) {
-            Connection poolThreadConnection =
-                    new Connection(taskQueue);
-
-            connections.add(poolThreadConnection);
-        }
-        for (Connection connection : connections) {
-            new Thread(connection).start();
-        }
+    public ConnectionPool(int noOfThreads) {
+        this.noOfThreads = noOfThreads;
     }
 
-    public synchronized void execute(Runnable task) throws IllegalStateException {
-        if (this.isStopped) {
-            throw new IllegalStateException("ThreadPool is stopped");
-        }
-
-        this.taskQueue.offer(task);
+    public Vector<Connection> getConnections() {
+        return connections;
     }
 
-    public synchronized void stop() {
-        this.isStopped = true;
-        for (Connection connection : connections) {
-            connection.disconnect();
-        }
+    private void bringConnectionToPool(Connection connection) {
+        connections.add(connection);
     }
 
-    public synchronized void waitUntilAllTasksFinished() {
-        while (this.taskQueue.size() > 0) {
-            try {
-                Thread.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+    public void releaseConnectionFromPool(Connection connection) {
+        connections.remove(connection);
+    }
+
+    public synchronized Connection getConnection() {
+        Connection connection = null;
+        if (connections.size() < noOfThreads) {
+            connection = new Connection(connections.size() + 1);
+            bringConnectionToPool(connection);
+        } else {
+            LOG_CONNECTION_POOL.info("There are no free slots. Connection will get to queue and the program will try to bring it to ConnectionPool every 2 seconds");
+            int maxAttempts = 0;
+            while (maxAttempts < 5 && !connection.isAvailable()) {
+                waitForConnection();
+                //ask again after 2 seconds
+                if (connections.size() < noOfThreads) {
+                    connection = new Connection(connections.size() + 1);
+                    bringConnectionToPool(connection);
+                }
+                maxAttempts++;
             }
         }
+        return connection;
     }
 
+    public synchronized void waitForConnection() {
+        try {
+            //sleeps for 2 seconds
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+

@@ -1,35 +1,35 @@
 package hometask.multithreading;
 
-import java.util.concurrent.BlockingQueue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class Connection implements Runnable {
+public class Connection {
 
-    private Thread thread = null;
-    private BlockingQueue taskQueue = null;
-    private boolean isStopped = false;
+    private int number;
+    private boolean isAvailable;
 
-    public Connection(BlockingQueue queue) {
-        taskQueue = queue;
+    final Logger LOG_CONNECTION = LogManager.getLogger(Connection.class.getName());
+
+    public Connection(int number) {
+        this.number = number;
     }
 
-    public void run() {
-        this.thread = Thread.currentThread();
-        while (!isStopped()) {
-            try {
-                Runnable connection = (Runnable) taskQueue.take();
-                connection.run();
-            } catch (InterruptedException e) {
-            }
-        }
+    public boolean isAvailable() {
+        return isAvailable;
     }
 
-    public synchronized void disconnect() {
-        isStopped = true;
-        //break pool thread out of dequeue call.
-        this.thread.interrupt();
+    public int getNumber() {
+        return number;
     }
 
-    public synchronized boolean isStopped() {
-        return isStopped;
+    public void connect(int taskNo) {
+        LOG_CONNECTION.info("Connecting from connection number " + number + " for task " + taskNo + "...");
+        isAvailable = false;
     }
+
+    public void disconnect(int taskNo) {
+        LOG_CONNECTION.info("Disconnecting from connection number " + number + " for task " + taskNo + "...");
+        isAvailable = true;
+    }
+
 }
