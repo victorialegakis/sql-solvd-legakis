@@ -1,0 +1,117 @@
+CREATE DATABASE transferCompany;
+
+USE transferCompany;
+
+CREATE TABLE Countries ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Cities ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    country_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(country_id) REFERENCES Countries(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE Users ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    address VARCHAR(45),
+    phone_number INT NOT NULL,
+    email VARCHAR(60),
+    city_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(city_id) REFERENCES Cities(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE Sizes ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    size_type VARCHAR(40) NOT NULL,
+    fare INT NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE Baggages ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    owner_id INT NOT NULL,
+    size_id INT NOT NULL,
+    weight INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(owner_id) REFERENCES Users(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE,
+    FOREIGN KEY(size_id) REFERENCES Sizes(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE Terminals (
+	id INT NOT NULL AUTO_INCREMENT,
+    address VARCHAR(45) NOT NULL,
+    gate VARCHAR(45),
+	PRIMARY KEY(id)
+);
+
+CREATE TABLE Routes ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    from_id INT NOT NULL,
+    to_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(from_id) REFERENCES Cities(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE,
+    FOREIGN KEY(to_id) REFERENCES Cities(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE TransportationTypes ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    type VARCHAR(45) NOT NULL,
+    PRIMARY KEY(id)
+);
+
+CREATE TABLE TransportationMediums ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    type_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(type_id) REFERENCES TransportationTypes(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE Transfers ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    route_id INT NOT NULL,
+    transportation_id INT NOT NULL,
+    price INT,
+    PRIMARY KEY(id),
+    FOREIGN KEY(route_id) REFERENCES Routes(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+
+CREATE TABLE BaggageTransfers ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    transfer_id INT NOT NULL,
+    baggage_id INT NOT NULL,
+    terminal_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(transfer_id) REFERENCES Transfers(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE,
+    FOREIGN KEY(baggage_id) REFERENCES Baggages(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE,
+    FOREIGN KEY(terminal_id) REFERENCES Terminals(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+    
+CREATE TABLE PassengerTransfers ( 
+	id INT NOT NULL AUTO_INCREMENT,
+    transfer_id INT NOT NULL,
+    passenger_id INT NOT NULL,
+    PRIMARY KEY(id),
+    FOREIGN KEY(passenger_id) REFERENCES Users(id)
+    ON DELETE NO ACTION ON UPDATE CASCADE
+);
+    
+
